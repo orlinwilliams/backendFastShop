@@ -2,9 +2,9 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const SALT_WORK_FACTOR = 10;
 
-const clientSchema = mongoose.Schema(
+const userSchema = mongoose.Schema(
   {
-    name: { type: String, require: true },
+    username: { type: String, require: true },
     email: {
       type: String,
       unique: true,
@@ -17,11 +17,12 @@ const clientSchema = mongoose.Schema(
         type: mongoose.Schema.Types.ObjectId,
       },
     ],
+    packagePrice: [{ ref: "pricing", type: mongoose.Schema.Types.ObjectId }],
   },
   { timestamps: true }
 );
 
-clientSchema.pre("save", function (next) {
+userSchema.pre("save", function (next) {
   var user = this;
 
   // only hash the password if it has been modified (or is new)
@@ -42,11 +43,4 @@ clientSchema.pre("save", function (next) {
   });
 });
 
-clientSchema.methods.comparePassword = function (candidatePassword, cb) {
-  bcrypt.compare(candidatePassword, this.password, function (err, isMatch) {
-    if (err) return cb(err);
-    cb(null, isMatch);
-  });
-};
-
-module.exports = mongoose.model("registerClient", clientSchema);
+module.exports = mongoose.model("user", userSchema);

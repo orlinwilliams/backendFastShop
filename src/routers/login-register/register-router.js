@@ -1,12 +1,12 @@
 const express = require("express");
 const router = express.Router();
-const registerClient = require("../../models/login-register/register-client");
+const registerClient = require("../../models/login-register/client");
 
 router.post("/client", (req, res) => {
-  const { name, email, password, role } = req.body;
+  const { username, email, password, role } = req.body;
   
   const client = new registerClient({ 
-    name, 
+    username, 
     email, 
     password
   });
