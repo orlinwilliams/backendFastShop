@@ -17,7 +17,25 @@ const userSchema = mongoose.Schema(
         type: mongoose.Schema.Types.ObjectId,
       },
     ],
-    packagePrice: [{ ref: "pricing", type: mongoose.Schema.Types.ObjectId }],
+    nameCompany: {
+      type: String,
+      require: true,
+      unique: true,
+    },
+    country: {
+      type: String,
+      require: true,
+    },
+    address: {
+      type: String,
+      require: true,
+    },
+    categoryCompany: {
+      type: String,
+      require: true,
+    },
+    price: { ref: "pricing", type: mongoose.Schema.Types.ObjectId },
+
   },
   { timestamps: true }
 );

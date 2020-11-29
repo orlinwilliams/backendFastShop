@@ -13,10 +13,10 @@ const clientSchema = mongoose.Schema(
     password: { type: String, require: true },
     role: [
       {
-        ref: "Role",
+        ref: "role",
         type: mongoose.Schema.Types.ObjectId,
       },
-    ],
+    ]
   },
   { timestamps: true }
 );

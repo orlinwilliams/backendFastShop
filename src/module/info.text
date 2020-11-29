@@ -1,0 +1,10 @@
+db.role.save({});
+{
+  "name":"admin"
+}
+{
+  "name":"user"
+}
+{
+  "name":"admin"
+}

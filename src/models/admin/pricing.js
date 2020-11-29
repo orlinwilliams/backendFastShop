@@ -14,7 +14,7 @@ const pricingSchema = mongoose.Schema(
       type: Number,
       require: true,
     },
-    maxQuantityProducts: Number,
+    maxQuantityProducts: String,
     maxQuantityPages: Number,
   },
   { timestamps: true }

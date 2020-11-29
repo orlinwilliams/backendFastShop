@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
 const schema = mongoose.Schema({
-  name: string,
+  name:String,
 });
-module.exports = mongoose.model("Role", schema);
+module.exports = mongoose.model("role", schema);
