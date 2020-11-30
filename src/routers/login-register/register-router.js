@@ -39,7 +39,7 @@ router.post("/user", (req, res) => {
   });
 });
 
-//OBTENRE ROLES DE USUARIOS
+//OBTENER ROLES DE USUARIOS
 router.get("/role", (req, res) => {
   role.find((error, result) => {
     if (error) res.send({ message: "Error en obtner roles", status: false });

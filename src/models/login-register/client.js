@@ -39,7 +39,7 @@ clientSchema.pre("save", function (next) {
   });
 });
 
-//FUNCION PARA LOGIN
+//FUNCION PARA LOGIN COMPARAR PASSWORD
 clientSchema.methods.comparePassword = function (candidatePassword, cb) {
   bcrypt.compare(candidatePassword, this.password, function (err, isMatch) {
     if (err) return cb(err);
