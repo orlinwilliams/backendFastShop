@@ -3,6 +3,7 @@ const router = express.Router();
 const registerClient = require("../../models/login-register/client");
 const registerUser = require("../../models/login-register/user");
 const role = require("../../models/login-register/role");
+const jwt = require("jsonwebtoken");
 
 //GUARDAR CLIENTE
 router.post("/client", (req, res) => {
@@ -20,7 +21,8 @@ router.post("/client", (req, res) => {
         .status(500)
         .send({ message: "error en guardar cliente", status: false });
     } else {
-      res.status(200).send({ result, status: true });
+      const tokenClient = jwt.sign({ id: result._id }, "secretclient");
+      res.status(200).send({ tokenClient, status: true });
     }
   });
 });
@@ -34,7 +36,8 @@ router.post("/user", (req, res) => {
         .status(500)
         .send({ message: "error en guardar usuario", status: false });
     } else {
-      res.status(200).send({ result, status: true });
+      const tokenUser = jwt.sign({ id: result.id }, "secretuser");
+      res.status(200).send({ tokenUser, status: true });
     }
   });
 });
