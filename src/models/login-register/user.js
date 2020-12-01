@@ -13,7 +13,7 @@ const userSchema = mongoose.Schema(
     password: { type: String, require: true },
     role: [
       {
-        ref: "Role",
+        ref: "role",
         type: mongoose.Schema.Types.ObjectId,
       },
     ],
@@ -34,8 +34,7 @@ const userSchema = mongoose.Schema(
       type: String,
       require: true,
     },
-    price: { ref: "pricing", type: mongoose.Schema.Types.ObjectId },
-
+    price: [{ ref: "pricing", type: mongoose.Schema.Types.ObjectId }],
   },
   { timestamps: true }
 );

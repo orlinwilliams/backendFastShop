@@ -29,6 +29,7 @@ router.post("/client", (req, res) => {
 
 //GUARDAR USUARIO
 router.post("/user", (req, res) => {
+  console.log(req.body);
   const user = new registerUser(req.body);
   user.save((error, result) => {
     if (error) {
