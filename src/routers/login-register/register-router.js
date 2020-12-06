@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const registerClient = require("../../models/login-register/client");
 const registerUser = require("../../models/login-register/user");
+const registerAdmin = require('../../models/login-register/admin');
 const role = require("../../models/login-register/role");
 const jwt = require("jsonwebtoken");
 
@@ -38,6 +39,21 @@ router.post("/user", (req, res) => {
         .send({ message: "error en guardar usuario", status: false });
     } else {
       const tokenUser = jwt.sign({ id: result.id }, "secretuser");
+      res.status(200).send({ tokenUser, status: true });
+    }
+  });
+});
+//GUARDAR ADMIN
+router.post("/admin", (req, res) => {
+  console.log(req.body);
+  const admin = new registerAdmin(req.body);
+  admin.save((error, result) => {
+    if (error) {
+      res
+        .status(500)
+        .send({ message: "error en guardar admin", status: false });
+    } else {
+      const tokenUser = jwt.sign({ id: result.id }, "secretadmin");
       res.status(200).send({ tokenUser, status: true });
     }
   });
