@@ -8,6 +8,7 @@ const Connection = require("./module/dataBase");
 const loginRouter = require("./routers/login-register/login-router");
 const registerRouter = require("./routers/login-register/register-router");
 const pricingRouter = require("./routers/admin/pricing-router")
+const usersRouter = require("./routers/admin/users")
 //conectando a la base de datos
 new Connection();
 
@@ -17,10 +18,13 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-//Enrutadores
+//----------Enrutadores generales
 app.use("/login", loginRouter);
 app.use("/register", registerRouter);
 app.use("/pricing", pricingRouter);
+
+//----------Enrutadores administradores
+app.use("/admin/users", usersRouter);
 
 
 
