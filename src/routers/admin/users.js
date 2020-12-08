@@ -24,20 +24,25 @@ router.get("/admin/:id", async (req, res) => {
 });
 //actualizar un administrador
 router.put("/admin/:id", async (req, res) => {
-  const { username, email, password,} = req.body;
+  const { username, email, password } = req.body;
   let adminUpdate = await admin.updateOne(
     { _id: req.params.id },
-    { username, email, password:bcrypt.hashSync(password,10)}
+    { username, email, password: bcrypt.hashSync(password, 10) }
   );
   res.send(adminUpdate);
 });
 
 //Obtener todos los clientes
 router.get("/client", (req, res) => {
-  client.find((error, result) => {
-    if (error) res.send({ message: "Error al obtner cliente", status: false });
-    res.send({ result, status: true });
-  });
+  client.find(
+    {},
+    { username: true, email: true, role: true, createdAt: true },
+    (error, result) => {
+      if (error)
+        res.send({ message: "Error al obtner cliente", status: false });
+      res.send({ result, status: true });
+    }
+  );
 });
 
 //Obtener todos las usuarios/compañias
