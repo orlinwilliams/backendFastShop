@@ -5,7 +5,7 @@ const client = require("../../models/login-register/client");
 const user = require("../../models/login-register/user");
 const admin = require("../../models/login-register/admin");
 
-//LOGIN CLIENTES
+//LOGIN 
 router.post("/", (req, res) => {
   const { email, password } = req.body;
   client
@@ -42,6 +42,7 @@ router.post("/", (req, res) => {
                           res.send({
                             tokenAdmin,
                             status: true,
+                            _id:resultAdmin._id,
                             username: resultAdmin.username,
                             email: resultAdmin.email,
                             role: resultAdmin.role,                            
@@ -71,6 +72,7 @@ router.post("/", (req, res) => {
                     res.send({
                       tokenUser,
                       status: true,
+                      _id: resultUser._id,
                       username: resultUser.username,
                       email: resultUser.email,
                       role: resultUser.role,
@@ -100,6 +102,7 @@ router.post("/", (req, res) => {
             res.send({
               tokenClient,
               status: true,
+              _id: resultClient._id,
               username: resultClient.username,
               email: resultClient.email,
               role: resultClient.role,
