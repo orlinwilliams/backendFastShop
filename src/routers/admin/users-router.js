@@ -49,7 +49,7 @@ router.get("/client", (req, res) => {
 router.get("/user", (req, res) => {
   user.find((error, result) => {
     if (error)
-      res.send({ message: "Error al obtner usuario/compañia", status: false });
+      res.send({ message: "Error al obtener usuario/compañia", status: false });
     res.send({ result, status: true });
   });
 });
