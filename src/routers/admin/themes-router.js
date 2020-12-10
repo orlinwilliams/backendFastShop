@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const multer = require("multer");
 const path = require("path");
-const { update } = require("../../models/admin/theme");
 const theme = require("../../models/admin/theme");
 const fs = require("fs").promises;
 var storage = multer.diskStorage({
@@ -15,6 +14,7 @@ var storage = multer.diskStorage({
 });
 const upload = multer({ storage }).array("images", 12);
 
+//----------------Nuevo tema----------
 router.post("/", upload, async (req, res) => {
   const { body, files } = req;
   const images = [];
@@ -36,20 +36,54 @@ router.post("/", upload, async (req, res) => {
       images: images,
     });
     const result = await newTheme.save();
-    res.send({ result, status: true });
+    if(result)res.send({ result, status: true });
   }
 });
-router.get("/:id", async (req, res) => {
-  let result = await theme.findOne({ _id: req.params.id });
-  res.send({ status: true, result });
+router.get("/", async (req, res) => {
+  let result = await theme
+    .find(
+      {},
+      {
+        title: true,
+        description: true,
+        css: true,
+        javascript: true,
+        createdAt: true,
+      }
+    )
+    .populate("createdBy", "username");
+    if(result){
+      res.send({ status: true, result });
+    }
 });
+
+router.get("/:id", async (req, res) => {
+  let result = await theme
+    .findOne(
+      { _id: req.params.id },
+      {
+        title: true,
+        description: true,
+        css: true,
+        javascript: true,
+        createdAt: true,
+      }
+    )
+    .populate("createdBy", "username");
+    if(result){
+      res.send({ status: true, result });
+    }
+});
+//------------editar tema--------------
 router.put("/:id", async (req, res) => {
   const { title, description, css, javascript } = req.body;
   const updateTheme = await theme.updateOne(
     { _id: req.params.id },
     { title, description, css, javascript }
   );
-  res.send(updateTheme);
+  if(updateTheme)res.send({updateTheme, status:true});
+
+
 });
 
 //--------------Eliminar un thema----------------

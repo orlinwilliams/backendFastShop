@@ -31,6 +31,6 @@ app.use("/pricing", pricingRouter);
 //----------Enrutadores administradores
 app.use("/admin/users", usersRouter);
 app.use("/admin/theme", themesRouter);
-console.log(__dirname);
+
 
 app.listen(8888, () => console.log("SERVER FASTSHOP ONLINE"));
