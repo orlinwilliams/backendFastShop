@@ -7,7 +7,6 @@ const registerAdmin = require("../../models/login-register/admin");
 const role = require("../../models/login-register/role");
 const jwt = require("jsonwebtoken");
 
-
 //GUARDAR CLIENTE
 router.post("/client", (req, res) => {
   const { username, email, password, role } = req.body;
@@ -32,48 +31,39 @@ router.post("/client", (req, res) => {
 
 //---------------Guardar user/companies---------------
 router.post("/user", async (req, res) => {
+  let newUser = {};
   const { username, email, password, role, country, price, address } = req.body;
   const { nameCompany, categoryCompany } = req.body;
-  let idCompany = "";
   let newCompany = new companyModel({ nameCompany, categoryCompany });
   let resultCompany = await newCompany.save();
   if (!resultCompany) {
     res.send({ status: false, message: "Error en guardar compañia" });
   }
+  
+  newUser = new registerUser({
+    username,
+    email,
+    password,
+    company:resultCompany._id,
+    role,
+    country,
+    price,
+    address,
+  });
+  
   try {
-    let resultCompanyId = await companyModel.findOne({ nameCompany });
-    if (!resultCompanyId) {
-      res.send({ status: false, message: "Error en guardar user" });
-    }
-    try {
-      idCompany = resultCompanyId._id;
-
-      let newUser = new registerUser({
-        username,
-        email,
-        company: idCompany,
-        password,
-        role,
-        country,
-        price,
-        address,
-      });
-
-      let resultUser = await newUser.save();
-      if (!resultUser) {
-        res.send({ tokenUser, status: true });
-      }
-      try {
-        const tokenUser = jwt.sign({ id: resultUser.id }, "secretuser");
+    newUser.save((error, resultUser) =>{
+      if(error) console.log(error);
+      else{
+        console.log(resultUser);
+        const tokenUser = jwt.sign({ id: resultUser._id }, "secretuser");
         res.status(200).send({ tokenUser, status: true });
-      } catch (error) {
-        res.send({ status: false, message: "Error en guardar user" });
       }
-    } catch (error) {
-      res.send({ status: false, message: "Error en guardar user" });
-    }
-  } catch (error) {
-    res.send({ status: false, message: "Error en guardar compañia" });
+    });
+    
+  } catch (error2) {
+    console.log(error2);
+    res.send({ message: "Error en guardar USUARIO", status: false });
   }
 });
 //---------------Guardar admin-------------------

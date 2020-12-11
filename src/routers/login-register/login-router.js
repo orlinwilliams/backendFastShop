@@ -5,23 +5,24 @@ const client = require("../../models/login-register/client");
 const user = require("../../models/login-register/user");
 const admin = require("../../models/login-register/admin");
 
-//LOGIN 
+//LOGIN
 router.post("/", (req, res) => {
   const { email, password } = req.body;
+
   client
     .findOne({ email }, (error, resultClient) => {
-      if (error) res.send({ message: "Error server", status: false });
+      if (error) res.send({ message: "Error server client", status: false });
       //SI no se encuentra en el documento de cliente
       else if (!resultClient) {
         user
           .findOne({ email }, (errorUser, resultUser) => {
-            if (errorUser) res.send({ message: "Error server", status: false });
+            if (errorUser) res.send({ message: errorUser, status: false });
             //SI NO ENCUENTRA AL USUARIO
             else if (!resultUser) {
               admin
                 .findOne({ email }, (errorAdmin, resultAdmin) => {
                   if (errorAdmin)
-                    res.send({ message: "Error server", status: false });
+                    res.send({ message: "Error server admin", status: false });
                   if (!resultAdmin)
                     res.send({ message: "Email not found", status: false });
                   else {
@@ -42,10 +43,10 @@ router.post("/", (req, res) => {
                           res.send({
                             tokenAdmin,
                             status: true,
-                            _id:resultAdmin._id,
+                            _id: resultAdmin._id,
                             username: resultAdmin.username,
                             email: resultAdmin.email,
-                            role: resultAdmin.role,                            
+                            role: resultAdmin.role,
                           });
                         } else {
                           res.send({
@@ -56,7 +57,8 @@ router.post("/", (req, res) => {
                       }
                     );
                   }
-                }).populate("role");
+                })
+                .populate("role");
             } else {
               resultUser.comparePassword(
                 password,
@@ -64,7 +66,7 @@ router.post("/", (req, res) => {
                   if (errorUser2)
                     res.send({ message: "Password incorret", status: false });
                   if (resultUser2) {
-                    //ENVIAR AL CLIENTE
+                    //-------ENVIAR AL Usuario-----
                     const tokenUser = jwt.sign(
                       { id: resultUser._id },
                       "secretuser"
@@ -77,7 +79,8 @@ router.post("/", (req, res) => {
                       email: resultUser.email,
                       role: resultUser.role,
                       price: resultUser.price,
-                      
+                      pages: resultUser.pages,
+                      company: resultUser.company,
                     });
                   } else {
                     res.send({
@@ -90,12 +93,14 @@ router.post("/", (req, res) => {
             }
           })
           .populate("price")
-          .populate("role");
+          .populate("role")
+          .populate("company")
+          .populate("pages");
       } else {
         resultClient.comparePassword(password, (error1, result1) => {
           if (error1) res.send({ message: "Password incorret", status: false });
           if (result1) {
-            //ENVIAR AL CLIENTE
+            //--------ENVIAR AL CLIENTE-------------
             const tokenClient = jwt.sign(
               { id: resultClient._id },
               "secretclient"

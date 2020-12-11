@@ -7,7 +7,7 @@ const schemePage = mongoose.Schema(
       type: String,
       require: true,
     },
-    pageDefault:Boolean,
+    mainPage:Boolean,
     css:{
       type:String
     },
