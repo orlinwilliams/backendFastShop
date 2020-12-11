@@ -11,17 +11,24 @@ const userSchema = mongoose.Schema(
       require: true,
     },
     password: { type: String, require: true },
+    company: [
+      {
+        ref: "companies",
+        type: mongoose.Schema.Types.ObjectId,
+      },
+    ],
+    pages: [
+      {
+        ref: "pages",
+        type: mongoose.Schema.Types.ObjectId,
+      },
+    ],
     role: [
       {
         ref: "role",
         type: mongoose.Schema.Types.ObjectId,
       },
-    ],
-    nameCompany: {
-      type: String,
-      require: true,
-      unique: true,
-    },
+    ],    
     country: {
       type: String,
       require: true,
@@ -30,10 +37,7 @@ const userSchema = mongoose.Schema(
       type: String,
       require: true,
     },
-    categoryCompany: {
-      type: String,
-      require: true,
-    },
+    
     price: [{ ref: "pricing", type: mongoose.Schema.Types.ObjectId }],
   },
   { timestamps: true }

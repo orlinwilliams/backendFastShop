@@ -77,6 +77,7 @@ router.post("/", (req, res) => {
                       email: resultUser.email,
                       role: resultUser.role,
                       price: resultUser.price,
+                      
                     });
                   } else {
                     res.send({
