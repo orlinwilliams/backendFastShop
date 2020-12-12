@@ -33,10 +33,11 @@ router.get("/:id", async (req, res) => {
   }
 });
 //----------------------obtener paginas----------------
-router.get("/", async (req, res) => {
-  let result = await page.find();
+router.post("/all", async (req, res) => {
+  let result = await user.findById(req.body.id).populate("pages");
+
   if (result) {
-    res.send({ status: true, result });
+    res.send({ status: true, pages: result.pages });
   }
 });
 
@@ -58,16 +59,16 @@ router.post("/delete", async (req, res) => {
   if (deletePage) {
     let updateUser = await user.updateOne(
       { _id: idUser },
-      { '$pull': { 'pages': idPage } }
+      { $pull: { pages: idPage } }
     );
-    if(updateUser){
-      res.send({status:true,updateUser});
+    if (updateUser) {
+      res.send({ status: true, updateUser });
     }
   }
 });
-//----------------------obtener una pagina----------------
+//----------------------eliminar una pagina----------------
 router.delete("/:id", async (req, res) => {
-  let result = await page.deleteOne({_id:req.params.id});
+  let result = await page.deleteOne({ _id: req.params.id });
   if (result) {
     res.send({ status: true, result });
   }
