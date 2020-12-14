@@ -10,7 +10,8 @@ const registerRouter = require("./routers/login-register/register-router");
 const pricingRouter = require("./routers/admin/pricing-router");
 const usersRouter = require("./routers/admin/users-router");
 const themesRouter = require("./routers/admin/themes-router");
-const pagesRouter = require('./routers/user/pages-router')
+const pagesRouter = require('./routers/user/pages-router');
+const categoriesRouter = require('./routers/user/categories-router')
 const path = require("path");
 
 //conectando a la base de datos
@@ -35,6 +36,7 @@ app.use("/admin/theme", themesRouter);
 
 //----------Enrutadores usuarios/compañias
 app.use('/admin-companies/pages',pagesRouter);
+app.use('/admin-companies',categoriesRouter);
 
 
 app.listen(8888, () => console.log("SERVER FASTSHOP ONLINE"));
