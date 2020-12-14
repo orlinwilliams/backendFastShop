@@ -49,11 +49,10 @@ router.get("/:idCompany/categories", async (req, res) => {
       {
         _id: req.params.idCompany,
       },
-      { categorias: true }
-    )
-    .populate("categories"); //
+      {categoires:true}
+    ).populate("categories"); //
   if (result) {
-    res.send({ status: true, result });
+    res.send({ status: true,result: result[0] });
   } else {
     console.log("No se econtro compañia");
   }
