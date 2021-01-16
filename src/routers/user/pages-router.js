@@ -16,7 +16,7 @@ router.post("/", async (req, res) => {
   try {
     let updateUser = await user.updateOne(
       { _id: idUser },
-      { pages: resultPage._id }
+      { $push:{pages: resultPage._id}}
     );
     if (updateUser) {
       res.send({ status: true, updateUser });
@@ -26,19 +26,20 @@ router.post("/", async (req, res) => {
   }
 });
 //----------------------obtener una pagina----------------
-router.get("/:id", async (req, res) => {
+router.get("/page/:id", async (req, res) => {
   let result = await page.findById(req.params.id);
   if (result) {
     res.send({ status: true, result });
   }
 });
 //----------------------obtener paginas----------------
-router.post("/all", async (req, res) => {
-  let result = await user.findById(req.body.id).populate("pages");
+router.get("/:id", async (req, res) => {
+  let result = await user.findById(req.params.id).populate("pages");
 
   if (result) {
     res.send({ status: true, pages: result.pages });
   }
+  else console.log('error');
 });
 
 //--------------------actualizar pagina------------
